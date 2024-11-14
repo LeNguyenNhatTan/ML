@@ -30,8 +30,8 @@ class SoftmaxRegression:
             linear_model = np.dot(X, self.weights) + self.bias
             y_predicted = self.softmax(linear_model)
 
-            # Tính toán training loss (cross-entropy loss)
-            training_loss = -np.mean(np.log(y_predicted[range(n_samples), y]))  # Ensure y is integer labels
+            # Tính toán training loss 
+            training_loss = self._compute_loss(X, y)
             self.training_losses.append(training_loss)
 
             # Cập nhật trọng số và độ dời
@@ -54,6 +54,7 @@ class SoftmaxRegression:
             if i % 1000 == 0:
                 print(f"Epoch {i}, Training Loss: {training_loss:.4f}, Validation Loss: {val_loss:.4f}, "
                       f"Training Acc: {training_accuracy:.4f}, Validation Acc: {val_accuracy:.4f}")
+
 
     def _compute_loss(self, X, y):
         linear_model = np.dot(X, self.weights) + self.bias

@@ -49,13 +49,13 @@ class SoftmaxRegression:
                 self.weights -= self.learning_rate * dw
                 self.bias -= self.learning_rate * db
 
-            # Compute training loss (cross-entropy loss)
-            training_loss = -np.mean(np.log(y_predicted[range(len(y_batch)), y_batch]))
-            self.training_losses.append(training_loss)
+                # Compute training loss (cross-entropy loss)
+                training_loss = self._compute_loss(X_batch, y_batch)
+                self.training_losses.append(training_loss)
 
-            # Compute accuracy on training set
-            training_accuracy = self._compute_accuracy(X, y)
-            self.training_accuracies.append(training_accuracy)
+                # Compute accuracy on training set
+                training_accuracy = self._compute_accuracy(X_batch, y_batch)
+                self.training_accuracies.append(training_accuracy)
 
             # Compute loss and accuracy on validation set
             val_loss = self._compute_loss(X_val, y_val)
@@ -70,7 +70,8 @@ class SoftmaxRegression:
     def _compute_loss(self, X, y):
         linear_model = np.dot(X, self.weights) + self.bias
         y_predicted = self.softmax(linear_model)
-        return -np.mean(np.log(y_predicted[range(len(y)), y]))
+        y_encoded = self.one_hot_encode(y, len(np.unique(y)))
+        return -np.mean(np.sum(y_encoded * np.log(y_predicted), axis=1))
 
     def _compute_accuracy(self, X, y):
         y_predicted = self.predict(X)
