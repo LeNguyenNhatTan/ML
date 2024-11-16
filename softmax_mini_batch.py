@@ -92,7 +92,9 @@ class SoftmaxRegression:
         y_predicted = np.argmax(self.softmax(linear_model), axis=1)
         return y_predicted
     
-    
+    def predict_proba(self, X):
+        linear_model = np.dot(X, self.weights) + self.bias
+        return self.softmax(linear_model)
     # # Waiting
     # def create_balanced_batches(self, X, y):
     #     # X: dữ liệu đầu vào (features), dạng numpy array
