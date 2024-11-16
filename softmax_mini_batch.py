@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn.model_selection import StratifiedShuffleSplit
 
 class SoftmaxRegression:
     def __init__(self, learning_rate=0.01, n_iter=1000, batch_size=32):
@@ -11,6 +12,8 @@ class SoftmaxRegression:
         self.validation_losses = []
         self.training_accuracies = []
         self.validation_accuracies = []
+        self.splitter = StratifiedShuffleSplit(n_splits=1, test_size=None, train_size=self.batch_size)
+
 
     def softmax(self, z):
         exp_z = np.exp(z - np.max(z, axis=1, keepdims=True))
@@ -28,15 +31,18 @@ class SoftmaxRegression:
 
         for i in range(self.n_iter):
             # Shuffle the data to ensure randomization for each mini-batch
-            indices = np.random.permutation(n_samples)
-            X_shuffled = X[indices]
-            y_shuffled = y[indices]
-
+            # indices = np.random.permutation(n_samples)
+            # X_shuffled = X[indices]
+            # y_shuffled = y[indices]
+            for train_idx, _ in self.splitter.split(X, y):
+                X_batch = X[train_idx]
+                y_batch = y[train_idx]
+ 
             # Loop over mini-batches
-            for start_idx in range(0, n_samples, self.batch_size):
-                end_idx = min(start_idx + self.batch_size, n_samples)
-                X_batch = X_shuffled[start_idx:end_idx]
-                y_batch = y_shuffled[start_idx:end_idx]
+            # for start_idx in range(0, n_samples, self.batch_size):
+            #     end_idx = min(start_idx + self.batch_size, n_samples)
+            #     X_batch = X_shuffled[start_idx:end_idx]
+            #     y_batch = y_shuffled[start_idx:end_idx]
 
                 # Compute predictions for the mini-batch
                 linear_model = np.dot(X_batch, self.weights) + self.bias
