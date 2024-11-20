@@ -1,5 +1,5 @@
 # Air Quality Classification using Softmax Regression
-#📄 Giới thiệu
+# 📄 Giới thiệu
 Đây là một ứng dụng Streamlit được xây dựng để phân loại chất lượng không khí dựa trên dữ liệu đầu vào. Ứng dụng sử dụng Softmax Regression, một thuật toán học máy tuyến tính phù hợp để phân loại nhiều lớp.
 
 Ứng dụng cho phép người dùng nhập thông số không khí (như PM2.5, PM10, CO, NO₂, O₃, v.v.) và dự đoán chất lượng không khí thuộc các mức như:
